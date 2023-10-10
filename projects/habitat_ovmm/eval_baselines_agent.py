@@ -13,6 +13,7 @@ from utils.config_utils import (
     create_env_config,
     get_habitat_config,
     get_omega_config,
+    OmegaConf,
 )
 
 from home_robot.agent.ovmm_agent.ovmm_agent import OpenVocabManipAgent
@@ -94,6 +95,8 @@ if __name__ == "__main__":
     if args.agent_type == "random":
         agent = RandomAgent(agent_config)
     else:
+        OmegaConf.set_readonly(agent_config, False)
+        agent_config.NO_GPU=1
         agent = OpenVocabManipAgent(agent_config)
 
     # create evaluator
