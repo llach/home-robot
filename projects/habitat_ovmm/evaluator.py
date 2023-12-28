@@ -13,6 +13,7 @@ from typing import TYPE_CHECKING, Any, Dict, Optional
 import cv2
 import numpy as np
 import pandas as pd
+
 # from habitat.utils.visualizations.utils import build_text_image, images_to_video
 from habitat_baselines.rl.ppo.ppo_trainer import PPOTrainer
 from omegaconf import DictConfig
@@ -398,18 +399,10 @@ class OVMMEvaluator(PPOTrainer):
                 observations, done, hab_info = self._env.apply_action(action, info)
                 print(
                     f"Timestep:\t{steps}\t{info['curr_skill']}\t({hab_info['ovmm_dist_to_pick_goal']:.4f},\t{hab_info['ovmm_dist_to_place_goal']:.4f})",
-                    end="\r",
                 )
-                # print(f"Current skill: {info['curr_skill']}")
-                # print(
-                #     f"info['ovmm_dist_to_pick_goal']:\t{hab_info['ovmm_dist_to_pick_goal']:.4f}"
-                # )
-                # print(
-                #     f"info['ovmm_dist_to_keep_goal']:\t{hab_info['ovmm_dist_to_place_goal']:.4f}"
-                # )
 
                 if info["curr_skill"] == "NAV_TO_OBJ" and steps > max_nav_obj_steps:
-                    print("Nav to obj is taking too long, moving to next episode")
+                    print("!!! NAV_TO_OBJ is taking too long, moving to next episode")
                     break
 
                 if "skill_done" in info and info["skill_done"] != "":
@@ -423,7 +416,7 @@ class OVMMEvaluator(PPOTrainer):
                         and metrics_at_skill_end["PICK.ovmm_pick_object_phase_success"]
                         == 0
                     ):
-                        print("Pick failure, the rest of the episode is moot")
+                        print("!!! PICK failure, the rest of the episode is moot")
                         break
 
                     current_episode_metrics = {
@@ -472,7 +465,7 @@ class OVMMEvaluator(PPOTrainer):
             )
             target_file_annotation = f"split_{self.config.EVAL_VECTORIZED.split}_episode_{current_episode.episode_id}"
 
-            save_down_videos = False#self.config.EVAL_VECTORIZED.record_videos
+            save_down_videos = False  # self.config.EVAL_VECTORIZED.record_videos
             # try:
             #     # if the episode has already been computed, and the new episode run is not better than the older, don't save down videos
             #     # the definition of better is (1) new computation results in overall success, (2) new computation has less steps than older one.

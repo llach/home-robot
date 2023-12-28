@@ -15,13 +15,13 @@ EXPERIMENT:
     segmentation: False
     fallback: none
     goal: max_iou_viewpoint
-    goal_radius: 0.5
+    goal_radius: 0.05
   NAV_TO_REC:
     type: oracle
     segmentation: False
     fallback: none
     goal: max_iou_viewpoint
-    goal_radius: 0.5
+    goal_radius: 0.05
 
 ENVIRONMENT:
   forward: 0.10           # forward motion (in meters)  Note: changing this should require a corresponding change in the habitat benchmark config

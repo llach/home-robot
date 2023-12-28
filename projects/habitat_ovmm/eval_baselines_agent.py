@@ -9,11 +9,11 @@ import os
 
 from evaluator import OVMMEvaluator
 from utils.config_utils import (
+    OmegaConf,
     create_agent_config,
     create_env_config,
     get_habitat_config,
     get_omega_config,
-    OmegaConf,
 )
 
 from home_robot.agent.ovmm_agent.ovmm_agent import OpenVocabManipAgent
@@ -32,11 +32,12 @@ if __name__ == "__main__":
         choices=["local", "local_vectorized", "remote"],
         default="local",
     )
-    parser.add_argument("--num_episodes", type=int, default=None)
+    parser.add_argument("--num_episodes", type=int, default=3)
     parser.add_argument(
         "--habitat_config_path",
         type=str,
         default="ovmm/ovmm_eval.yaml",
+        # default="ovmm/a2a_exec.yaml",
         help="Path to config yaml",
     )
     parser.add_argument(
@@ -96,7 +97,7 @@ if __name__ == "__main__":
         agent = RandomAgent(agent_config)
     else:
         OmegaConf.set_readonly(agent_config, False)
-        agent_config.NO_GPU=1
+        agent_config.NO_GPU = 1
         agent = OpenVocabManipAgent(agent_config)
 
     # create evaluator
