@@ -35,7 +35,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--habitat_config_path",
         type=str,
-        default="ovmm/ovmm_eval.yaml",
+        default="ovmm/a2a_eval.yaml",
         help="Path to config yaml",
     )
     parser.add_argument(
@@ -93,6 +93,8 @@ if __name__ == "__main__":
 
     # merge env config and baseline config to create agent config
     agent_config = create_agent_config(env_config, baseline_config)
+    agent_config._set_flag("readonly", False)
+    agent_config.NO_GPU = 1
 
     device_id = env_config.habitat.simulator.habitat_sim_v0.gpu_device_id
 
